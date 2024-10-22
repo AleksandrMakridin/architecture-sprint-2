@@ -1,6 +1,14 @@
 version: '3'
 name: mongo-sharding
 
+pymongo_api:
+    image: kazhem/pymongo_api:1.0.0
+    ports:
+      - "8080:8080"
+    environment:
+      MONGODB_URL: "mongodb://mongos_router:27020"
+      MONGODB_DATABASE_NAME: "somedb"
+
 services:
   configSrv:
     image: mongo:latest # docker образ
