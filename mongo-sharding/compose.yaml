@@ -121,5 +121,6 @@ networks:
 
 volumes:
   config-data:
+  config-data-configdb:
   shard1-data:
   shard2-data:
