@@ -1,14 +1,24 @@
-# pymongo-api
+# sprint 2 
+## sprint 2 task 1_1
+Шардирование в MongoDB для повышения производительности. Двух шардов будет достаточно.
+https://github.com/AleksandrMakridin/architecture-sprint-2/blob/sprint2/spint2task1.drawio
+## sprint 2 task 1_2
+Репликацию MongoDB для повышения отказоустойчивости.
+https://github.com/AleksandrMakridin/architecture-sprint-2/blob/sprint2/spint2task2.drawio
+## sprint 2 task 1_3
+Кэширование для ещё большего повышения производительности.
+https://github.com/AleksandrMakridin/architecture-sprint-2/blob/sprint2/spint2task3.drawio
+
+# Разворачивалось все на Ubuntu+Docker+Portainer
+## sprint 2 task 2 Шардирование
+https://github.com/AleksandrMakridin/architecture-sprint-2/tree/sprint2/mongo-sharding
+## sprint 2 task 3 Репликация
+https://github.com/AleksandrMakridin/architecture-sprint-2/tree/sprint2/mongo-sharding-repl
+## sprint 2 task 4 Кэширование
+https://github.com/AleksandrMakridin/architecture-sprint-2/tree/sprint2/sharding-repl-cache
 
 ## Как запустить
-
-Запускаем mongodb и приложение
-
-```shell
-docker compose up -d
-```
-
-Заполняем mongodb данными
+Инициализируем и Заполняем mongodb данными
 
 ```shell
 ./scripts/mongo-init.sh
@@ -16,20 +26,14 @@ docker compose up -d
 
 ## Как проверить
 
-### Если вы запускаете проект на локальной машине
-
-Откройте в браузере http://localhost:8080
-
-### Если вы запускаете проект на предоставленной виртуальной машине
-
-Узнать белый ip виртуальной машины
-
 ```shell
-curl --silent http://ifconfig.me
+./scripts/mongodb-countdoc.sh
 ```
+## sprint 2 task 5 
+Service Discovery и балансировка с API Gateway
+Добавил в схему еще и nginx + еще один redis. На основе расмотренных примеров, мне кажется так правильнее.
+https://github.com/AleksandrMakridin/architecture-sprint-2/blob/sprint2/spint2task5.drawio
 
-Откройте в браузере http://<ip виртуальной машины>:8080
-
-## Доступные эндпоинты
-
-Список доступных эндпоинтов, swagger http://<ip виртуальной машины>:8080/docs
+## sprint 2 task 6 
+CDN
+https://github.com/AleksandrMakridin/architecture-sprint-2/blob/sprint2/spint2task6.drawio
