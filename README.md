@@ -18,6 +18,8 @@ https://github.com/AleksandrMakridin/architecture-sprint-2/tree/sprint2/mongo-sh
 https://github.com/AleksandrMakridin/architecture-sprint-2/tree/sprint2/sharding-repl-cache
 
 ## Как запустить
+В bash не очень силен. Но надеюсь верно. Смотрел через Container console
+
 Инициализируем и Заполняем mongodb данными
 
 ```shell
