@@ -1,9 +1,5 @@
 #!/bin/bash
 
-###
-# Инициализируем бд
-###
-
 docker compose exec -T configSrv mongosh --port 27017 --quiet <<EOF
 rs.initiate(
   {
@@ -46,10 +42,6 @@ rs.initiate(
 );
 EOF
 
-
-###
-# Заполненяем бд
-###
 
 docker compose exec -T mongos_router mongosh --port 27020 --quiet <<EOF
 sh.addShard("shard1/shard1_1:27018");
