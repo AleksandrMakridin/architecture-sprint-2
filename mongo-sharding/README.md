@@ -19,3 +19,4 @@ docker compose up -d
 ```shell
 ./scripts/mongodb-countdoc.sh
 ```
+Откройте в браузере http://ip:8080
