@@ -19,3 +19,4 @@ docker compose up -d
 ```shell
 ./scripts/mongodb-countdoc.sh
 ```
+http://ip:8080
