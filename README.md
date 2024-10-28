@@ -33,7 +33,6 @@ https://github.com/AleksandrMakridin/architecture-sprint-2/tree/sprint2/sharding
 ```
 ## sprint 2 task 5 
 Service Discovery и балансировка с API Gateway
-Добавил в схему еще и nginx + еще один redis. На основе расмотренных примеров, мне кажется так правильнее.
 https://github.com/AleksandrMakridin/architecture-sprint-2/blob/sprint2/spint2task5.drawio
 
 ## sprint 2 task 6 
