@@ -14,7 +14,7 @@ rs.initiate(
 EOF
 
 #shard1
-docker exec -T shard1 mongosh --port 27018 <<EOF
+docker compose exec -T shard1 mongosh --port 27018 <<EOF
 rs.initiate(
   {
     _id : "shard1",
@@ -25,7 +25,7 @@ rs.initiate(
 );
 EOF
 #shard2
-docker exec -T shard2 mongosh --port 27019 <<EOF
+docker compose exec -T shard2 mongosh --port 27019 <<EOF
 rs.initiate(
   {
     _id : "shard2",
