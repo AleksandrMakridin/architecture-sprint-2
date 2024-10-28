@@ -4,6 +4,10 @@ services:
   # api
   pymongo_api:
     image: kazhem/pymongo_api:1.0.0
+    container_name: pymongo_api
+    depends_on:
+      - mongos_router
+    restart: always    
     ports:
       - "8080:8080"
     environment:
@@ -16,7 +20,7 @@ services:
     container_name: configSrv
     restart: always
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
       - config-data:/data/db
     command: 
@@ -24,12 +28,10 @@ services:
         "--configsvr",  //запуск в режиме конфигурации
         "--replSet",
         "config_server",
-        "--bind_ip_all",
-        "--port",
-        "27017"
+        "--bind_ip_all"
       ] 
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "--port", "27017"]
       interval: 5s
       start_period: 10s
 
@@ -37,22 +39,23 @@ services:
   mongos_router:
     image: mongo:latest
     container_name: mongos_router
+    depends_on: ["configSrv", "shard1_1", "shard1_2", "shard1_3", "shard2_1", "shard2_2", "shard2_3"]
     restart: always
     ports:
       - "27020:27020"
+    volumes:
+      - router-data:/data/db  
     command: 
        [
         "mongos", //обычная mongo в режиме роутера
         "--configdb", 
         "config_server/configSrv:27017", //передача данных сервера конфигурации
         "--bind_ip_all",
-        "--port",
-        "27020"
         ]
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 5s
-      start_period: 10s
+     test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "--port", "27020"]
+     interval: 5s
+     start_period: 10s
 
   # shard1_1
   shard1_1:
@@ -67,13 +70,11 @@ services:
       [
         "--shardsvr", //запуск в режиме шардинга
         "--replSet",
-        "shard1", //название реплики
-        "--bind_ip_all",
-        "--port",
-        "27018"
+        "shard1_1", //название реплики
+        "--bind_ip_all"
       ]
     healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
       interval: 5s
       start_period: 10s
       
@@ -90,13 +91,11 @@ services:
       [
         "--shardsvr", //запуск в режиме шардинга
         "--replSet",
-        "shard2", //название реплик
-        "--bind_ip_all", // обратите внимание - она отличается от реплики 1-го шарда
-        "--port",
-        "27019"
+        "shard1_2", //название реплик
+        "--bind_ip_all" // обратите внимание - она отличается от реплики 1-го шарда
       ]
     healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
       interval: 5s
       start_period: 10s
       
@@ -113,13 +112,11 @@ services:
       [
         "--shardsvr", //запуск в режиме шардинга
         "--replSet",
-        "shard2", //название реплик
-        "--bind_ip_all", // обратите внимание - она отличается от реплики 1-го шарда
-        "--port",
-        "27022"
+        "shard1_3", //название реплик
+        "--bind_ip_all" // обратите внимание - она отличается от реплики 1-го шарда
       ]
     healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
       interval: 5s
       start_period: 10s
 
@@ -136,13 +133,11 @@ services:
       [
         "--shardsvr", //запуск в режиме шардинга
         "--replSet",
-        "shard1", //название реплики
-        "--bind_ip_all",
-        "--port",
-        "27023"
+        "shard2_1", //название реплики
+        "--bind_ip_all"
       ]
     healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
       interval: 5s
       start_period: 10s
       
@@ -159,13 +154,11 @@ services:
       [
         "--shardsvr", //запуск в режиме шардинга
         "--replSet",
-        "shard2", //название реплик
-        "--bind_ip_all", // обратите внимание - она отличается от реплики 1-го шарда
-        "--port",
-        "27024"
+        "shard2_2", //название реплик
+        "--bind_ip_all" // обратите внимание - она отличается от реплики 1-го шарда
       ]
     healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
       interval: 5s
       start_period: 10s
       
@@ -182,19 +175,17 @@ services:
       [
         "--shardsvr", //запуск в режиме шардинга
         "--replSet",
-        "shard2", //название реплик
-        "--bind_ip_all", // обратите внимание - она отличается от реплики 1-го шарда
-        "--port",
-        "27025"
+        "shard2_3", //название реплик
+        "--bind_ip_all" // обратите внимание - она отличается от реплики 1-го шарда
       ]
     healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
       interval: 5s
       start_period: 10s
       
 volumes:
   config-data:
-  config-data-configdb:
+  router-data:
   shard1_1:
   shard1_2:
   shard1_3:
